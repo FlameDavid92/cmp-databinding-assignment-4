@@ -1,0 +1,18 @@
+.col-num-left {
+  height: 20em;
+  overflow-y: scroll;
+  padding-bottom: 25px;
+}
+.col-num-right {
+  height: 20em;
+  overflow-y: scroll;
+  direction: rtl;
+  padding-bottom: 25px;
+}
+.item-right {
+  direction: ltr;
+}
+
+.text-small {
+  font-size: 12px;
+}

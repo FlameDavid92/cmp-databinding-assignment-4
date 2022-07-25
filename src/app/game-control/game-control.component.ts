@@ -5,8 +5,12 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
   templateUrl: './game-control.component.html',
 })
 export class GameControlComponent implements OnInit {
-  timerRef: number = -1;
-  counter: number = 0;
+  game: {
+    started: boolean;
+    paused: boolean;
+    timeref: number;
+    counter: number;
+  } = { started: false, paused: false, timeref: NaN, counter: 0 };
   @Output() counterEvent = new EventEmitter<number>();
   @Output() resetEvent = new EventEmitter();
 
@@ -15,24 +19,25 @@ export class GameControlComponent implements OnInit {
   ngOnInit(): void {}
 
   onStart() {
-    this.timerRef = setInterval(
+    this.game.started = true;
+    this.game.paused = false;
+    this.game.timeref = setInterval(
       (() => {
-        this.counter += Math.floor(Math.random() * 10) + 1;
-        this.counterEvent.emit(this.counter);
+        this.game.counter += Math.floor(Math.random() * 10) + 1;
+        this.counterEvent.emit(this.game.counter);
       }) as TimerHandler,
       1000
     );
   }
 
   onPause() {
-    clearInterval(this.timerRef);
-    this.timerRef = 0;
+    clearInterval(this.game.timeref);
+    this.game.paused = true;
   }
 
   onStop() {
-    clearInterval(this.timerRef);
-    this.timerRef = -1;
-    this.counter = 0;
+    clearInterval(this.game.timeref);
+    this.game = { started: false, paused: false, timeref: NaN, counter: 0 };
     this.resetEvent.emit();
   }
 }

@@ -1,15 +1,15 @@
 <div class="row">
   <div class="col-6 col-lg-2">
     <button
-      *ngIf="timerRef <= 0"
+      *ngIf="!game.started || game.paused"
       class="btn btn-success w-100"
       (click)="onStart()"
     >
-      <span *ngIf="timerRef !== 0">Start</span>
-      <span *ngIf="timerRef === 0">Restart</span>
+      <span *ngIf="game.paused">Restart</span>
+      <span *ngIf="!game.paused">Start</span>
     </button>
     <button
-      *ngIf="timerRef > 0"
+      *ngIf="game.started && !game.paused"
       class="btn btn-warning w-100"
       (click)="onPause()"
     >
@@ -17,6 +17,12 @@
     </button>
   </div>
   <div class="col-6 col-lg-2">
-    <button class="btn btn-danger w-100" (click)="onStop()">Stop</button>
+    <button
+      class="btn btn-danger w-100"
+      [disabled]="!game.started"
+      (click)="onStop()"
+    >
+      Stop
+    </button>
   </div>
 </div>
